@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: BANKING-PRODUCT-APP
+          uri: lb://banking-product-app
+          predicates:
+            - Path=/user-account/**
+          filters:
+            - AuthenticationFilter
+
+
+        - id: JWT-AUTHENTICATION
+          uri: lb://JWT-AUTHENTICATION
+          predicates:
+            - Path=/auth/**
+
+  application:
+    name: BANK-GATEWAY
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8082/eureka/
